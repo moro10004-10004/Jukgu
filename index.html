@@ -56,6 +56,7 @@ body[data-s=mode] #bgc,body[data-s=rec] #bgc,body[data-s=help] #bgc{display:bloc
 #hbar{position:absolute;left:19%;right:19%;bottom:1%;height:8.6%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(#2a2418,#14100a);border:calc(var(--u)*.35) solid #080604;box-shadow:inset 0 0 0 2px #7a6e52;border-radius:6px}
 #hbar .hint{font-size:calc(var(--u)*1.45);line-height:1.3}
 .hint{font-size:clamp(10px,2.2vh,15px);color:#c8c0a8;text-shadow:2px 2px 0 #000;letter-spacing:.04em}
+.ver{position:absolute;left:max(10px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));z-index:3;padding:4px 10px;border-radius:6px;background:#000a;border:1px solid #ffd02899;color:#ffd028;font:700 clamp(12px,3dvh,16px) "Malgun Gothic",sans-serif}
 #net .nb{display:none;flex-direction:column;align-items:center;gap:1.2vh}
 #net .ns{margin:0;color:#d8c8a0;font-size:clamp(12px,2.6dvh,17px);text-align:center;max-width:90vw}
 #net .nc{display:flex;align-items:center;gap:12px;font-size:clamp(12px,2.6dvh,16px);color:#b8b098}
@@ -96,7 +97,7 @@ body.ph #tc{display:flex}@media (pointer:coarse){body.au #tc{display:flex}}
 <canvas id="bgc" width="1280" height="800"></canvas>
 <div id="mute" onclick="Aud.toggle()" title="소리 켜기/끄기 (M)"><svg viewBox="0 0 24 24" fill="#0b0b0b" stroke="none"><path d="M3 9.2h3.6L11.6 5v14l-5-4.2H3z"/><path class="w" d="M14.6 9.1a4.1 4.1 0 0 1 0 5.8" fill="none" stroke="#0b0b0b" stroke-width="1.9" stroke-linecap="round"/><path class="w" d="M17.2 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="#0b0b0b" stroke-width="1.9" stroke-linecap="round"/><path class="sl" d="M15 9.4l5.6 5.6M20.6 9.4L15 15" fill="none" stroke="#0b0b0b" stroke-width="1.9" stroke-linecap="round"/></svg></div>
 <div id="title" class="scr on" style="padding:0"><div class="cw"><canvas id="tcv" width="1280" height="800"></canvas>
- <div id="tmenu"><div class="mi on">2P 플레이</div><div class="mi">멀티플레이</div><div class="mi">전적보기</div><div class="mi">조작법</div></div>
+ <div class="ver">버전 v1.6</div><div id="tmenu"><div class="mi on">2P 플레이</div><div class="mi">멀티플레이</div><div class="mi">전적보기</div><div class="mi">조작법</div></div>
  <div id="mmenu"><div class="sub">세트 수를 고르세요</div><div class="mi on">단판 11점</div><div class="mi">3세트 (11 · 11 · 15)</div><div class="mi">뒤로</div></div>
 <div class="cr">©2026 JOKGU UNIT · v1.6</div></div></div>
 <div id="sel" class="scr" style="padding:0"><div class="sw" id="sw"><div class="cds" id="cds"></div>
