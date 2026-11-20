@@ -56,7 +56,6 @@ body[data-s=mode] #bgc,body[data-s=rec] #bgc,body[data-s=help] #bgc{display:bloc
 #hbar{position:absolute;left:19%;right:19%;bottom:1%;height:8.6%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(#2a2418,#14100a);border:calc(var(--u)*.35) solid #080604;box-shadow:inset 0 0 0 2px #7a6e52;border-radius:6px}
 #hbar .hint{font-size:calc(var(--u)*1.45);line-height:1.3}
 .hint{font-size:clamp(10px,2.2vh,15px);color:#c8c0a8;text-shadow:2px 2px 0 #000;letter-spacing:.04em}
-.ver{position:absolute;left:max(10px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));z-index:3;padding:4px 10px;border-radius:6px;background:#000a;border:1px solid #ffd02899;color:#ffd028;font:700 clamp(12px,3dvh,16px) "Malgun Gothic",sans-serif}
 #net .nb{display:none;flex-direction:column;align-items:center;gap:1.2vh}
 #net .ns{margin:0;color:#d8c8a0;font-size:clamp(12px,2.6dvh,17px);text-align:center;max-width:90vw}
 #net .nc{display:flex;align-items:center;gap:12px;font-size:clamp(12px,2.6dvh,16px);color:#b8b098}
@@ -97,14 +96,14 @@ body.ph #tc{display:flex}@media (pointer:coarse){body.au #tc{display:flex}}
 <canvas id="bgc" width="1280" height="800"></canvas>
 <div id="mute" onclick="Aud.toggle()" title="소리 켜기/끄기 (M)"><svg viewBox="0 0 24 24" fill="#0b0b0b" stroke="none"><path d="M3 9.2h3.6L11.6 5v14l-5-4.2H3z"/><path class="w" d="M14.6 9.1a4.1 4.1 0 0 1 0 5.8" fill="none" stroke="#0b0b0b" stroke-width="1.9" stroke-linecap="round"/><path class="w" d="M17.2 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="#0b0b0b" stroke-width="1.9" stroke-linecap="round"/><path class="sl" d="M15 9.4l5.6 5.6M20.6 9.4L15 15" fill="none" stroke="#0b0b0b" stroke-width="1.9" stroke-linecap="round"/></svg></div>
 <div id="title" class="scr on" style="padding:0"><div class="cw"><canvas id="tcv" width="1280" height="800"></canvas>
- <div class="ver">버전 v1.6</div><div id="tmenu"><div class="mi on">2P 플레이</div><div class="mi">멀티플레이</div><div class="mi">전적보기</div><div class="mi">조작법</div></div>
+ <div id="tmenu"><div class="mi on">2P 플레이</div><div class="mi">멀티플레이</div><div class="mi">전적보기</div><div class="mi">조작법</div></div>
  <div id="mmenu"><div class="sub">세트 수를 고르세요</div><div class="mi on">단판 11점</div><div class="mi">3세트 (11 · 11 · 15)</div><div class="mi">뒤로</div></div>
-<div class="cr">©2026 JOKGU UNIT · v1.6</div></div></div>
+<div class="cr">©2026 JOKGU UNIT · v1.5</div></div></div>
 <div id="sel" class="scr" style="padding:0"><div class="sw" id="sw"><div class="cds" id="cds"></div>
  <button class="bt sm sb" style="left:1.4%" onclick="show('mode')">뒤로</button><button class="bt sm sb" style="right:1.4%" onclick="selReset()">다시 선택</button>
  <div id="hbar"><div class="hint" id="sh"></div><div class="hint" id="swt" style="color:#ffd028"></div></div></div></div>
 <div id="net" class="scr"><div class="hd">멀티플레이</div>
- <div class="nb" id="n0"><p class="ns">인터넷만 되면 폰 두 대로 같이 해요 (v1.6)</p><button class="bt pri" onclick="netCreate()">방 만들기</button><button class="bt" onclick="netStep('n2');netMsg('');$('nin').value='';$('nin').focus()">코드로 참가</button><button class="bt sm" onclick="show('title')">뒤로</button></div>
+ <div class="nb" id="n0"><p class="ns">와이파이나 데이터가 켜진 폰 두 대로 같이 해요 (v1.5)</p><button class="bt pri" onclick="netCreate()">방 만들기</button><button class="bt" onclick="netStep('n2');netMsg('');$('nin').value='';$('nin').focus()">코드로 참가</button><button class="bt sm" onclick="show('title')">뒤로</button></div>
  <div class="nb" id="n2"><p class="ns">친구에게 받은 방 코드 4글자</p><input id="nin" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="예: 7K3P" onkeydown="if(event.key=='Enter')netJoin()"><button class="bt pri" onclick="netJoin()">참가</button><button class="bt sm" onclick="netStep('n0');netMsg('')">뒤로</button></div>
  <div class="nb" id="n3"><p class="ns">잠시만요...</p></div>
  <div class="nb" id="n1"><div class="nc"><span>방 코드</span><b id="ncode">----</b><button class="bt sm" onclick="netCopy()">복사</button></div><p class="ns" id="nst"></p>
@@ -513,7 +512,7 @@ const Aud=(()=>{
 /* ================= 온라인 대전 (방 코드) =================
    통신 방법은 실행 환경에 따라 자동 선택:
    - Claude 안에서 열면: Claude의 'room' 기능 (로그인 + 초대받은 사람끼리)
-   - 일반 웹사이트에 올리면: 공개 중계 서버 + 폰끼리 직접 연결 (링크만 있으면 누구나, 가입 없음)
+   - 일반 웹사이트에 올리면: PeerJS (WebRTC, 링크만 있으면 누구나)
    방장(1P)이 게임을 계산하고, 참가자(2P)는 조작만 보내고 화면을 받아 그림. */
 const NET={on:false,role:'',code:'',tr:null,me:{},ot:null,otT:0,peer:false,rin:[0,0,0,0,0],snap:null,a:null,t:0,kc:[0,0],hn:0,sk:[0,0],tick:0,hb:0,lost:0,fin:0};
 const CODE_CH='23456789ABCDEFGHJKMNPQRSTUVWXYZ';
@@ -531,92 +530,51 @@ async function trRoom(code,role){const room=await window.claude.use('room');if(!
  await r.presence({role});
  return L.api({send:m=>{r.presence({role,m}).catch(()=>{})},close:()=>{r.leave().catch(()=>{})},
   busy:()=>r.peers().some(p=>!p.sameTab&&p.presence&&p.presence.role==role)})}
-/* ---------- 통신 2: 일반 웹사이트용 (가입 없는 공개 중계 서버 + 가능하면 폰끼리 직접 연결) ----------
-   1) 공개 MQTT 중계 서버(웹소켓)로 방 찾기/입장
-   2) 그 길로 WebRTC 직접 연결을 시도 → 되면 빠른 직접 연결
-   3) 직접 연결이 안 되는 망(통신사 등)이면 중계 서버로 계속 주고받음 → 인터넷만 되면 연결됨 */
-const BROKERS=window.JK_BROKERS||['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt','wss://mqtt.eclipseprojects.io:443/mqtt'];
-const ICE=[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}];
-/* 아주 작은 MQTT(3.1.1) 클라이언트: 접속 / 구독 / 보내기 / 살아있음 신호 */
-function mqConnect(url){return new Promise((ok,no)=>{let ws;try{ws=new WebSocket(url,'mqtt')}catch(e){return no('nonet')}
- ws.binaryType='arraybuffer';const te=new TextEncoder(),td=new TextDecoder();let buf=new Uint8Array(0),pid=1,done=0,ping=null;
- const subs={},cl={onmsg:null,onclose:null,up:false};
- const str=s=>{const b=te.encode(s);return[b.length>>8,b.length&255,...b]};
- const pkt=(h,body)=>{const out=[h];let n=body.length;do{let d=n%128;n=Math.floor(n/128);if(n>0)d|=128;out.push(d)}while(n>0);const u=new Uint8Array(out.length+body.length);u.set(out);u.set(body,out.length);return u};
- const send=u=>{if(ws.readyState==1)try{ws.send(u)}catch(e){}};
- ws.onopen=()=>{const cid='ju'+Math.random().toString(36).slice(2,12);send(pkt(0x10,[...str('MQTT'),4,2,0,30,...str(cid)]));ping=setInterval(()=>send(new Uint8Array([0xC0,0])),20000)};
- ws.onmessage=e=>{const d=new Uint8Array(e.data),nb=new Uint8Array(buf.length+d.length);nb.set(buf);nb.set(d,buf.length);buf=nb;
-  for(;;){if(buf.length<2)break;let m=1,n=0,i=1,c;do{if(i>=buf.length)return;c=buf[i++];n+=(c&127)*m;m*=128}while(c&128);if(buf.length<i+n)break;
-   const t=buf[0]>>4,body=buf.subarray(i,i+n);buf=buf.slice(i+n);
-   if(t==2){if(body[1]===0){cl.up=true;if(!done){done=1;ok(cl)}}else if(!done){done=1;no('nonet')}}
-   else if(t==3){const tl=(body[0]<<8)|body[1],topic=td.decode(body.subarray(2,2+tl));let p=2+tl;if((buf[0]>>1&3)>0)p+=2;
-    if(cl.onmsg)try{cl.onmsg(topic,td.decode(body.subarray(p)))}catch(x){}}}};
- ws.onerror=()=>{};ws.onclose=()=>{clearInterval(ping);cl.up=false;if(!done){done=1;no('nonet')}if(cl.onclose)cl.onclose()};
- cl.sub=t=>{subs[t]=1;send(pkt(0x82,[pid>>8,(pid++)&255,...str(t),0]))};
- cl.pub=(t,s)=>send(pkt(0x30,[...str(t),...te.encode(s)]));
- cl.close=()=>{try{send(new Uint8Array([0xE0,0]));ws.close()}catch(e){}};
- setTimeout(()=>{if(!done){done=1;try{ws.close()}catch(e){}no('nonet')}},7000)})}
-async function mqFirst(order){let last='nonet';for(const i of order){try{return{cl:await mqConnect(BROKERS[i]),bi:i}}catch(e){last=e}}throw last}
-function codeFor(bi){/* 코드 첫 글자로 어느 중계 서버인지 표시 → 참가자가 같은 서버로 감 */let s;do{s=newCode()}while(CODE_CH.indexOf(s[0])%BROKERS.length!=bi);return s}
-async function trMq(code,role){const L=mkLink(),me=Math.random().toString(36).slice(2,10);let bi,cl;
- if(role=='host'){const r=await mqFirst(BROKERS.map((_,i)=>i));cl=r.cl;bi=r.bi;code=codeFor(bi)}
- else{bi=CODE_CH.indexOf(code[0])%BROKERS.length;const r=await mqFirst([bi]);cl=r.cl}
- const base='jokguunit/v2/'+code+'/',inT=base+(role=='host'?'g':'h'),outT=base+(role=='host'?'h':'g');
- let other=null,pc=null,dc=null,closed=0,lastIn=0;
- const raw=o=>{if(cl&&cl.up)cl.pub(outT,JSON.stringify(Object.assign({f:me},o)))};
- const resub=()=>cl.sub(inT);resub();
- /* 직접 연결(WebRTC) */
- const dcWire=c=>{dc=c;c.onopen=()=>{};c.onmessage=e=>{lastIn=Date.now();try{L.got(JSON.parse(e.data))}catch(x){}};c.onclose=()=>{if(dc===c)dc=null}};
- const mkPc=()=>{if(!window.RTCPeerConnection)return null;try{pc=new RTCPeerConnection({iceServers:ICE})}catch(e){return null}
-  pc.onicecandidate=e=>{if(e.candidate)raw({t:'ice',c:e.candidate})};pc.ondatachannel=e=>dcWire(e.channel);return pc};
- const startRtc=async()=>{if(!mkPc())return;dcWire(pc.createDataChannel('g',{ordered:true,maxRetransmits:0}));
-  try{const o=await pc.createOffer();await pc.setLocalDescription(o);raw({t:'sdp',d:pc.localDescription})}catch(e){}};
- const onRaw=async m=>{if(!m||m.f===me)return;
-  if(role=='host'){
-   if(m.t=='join'){if(other&&other!==m.f){raw({t:'full',to:m.f});return}const fresh=other!==m.f;other=m.f;lastIn=Date.now();raw({t:'welcome',to:m.f});L.setUp(true);if(fresh)startRtc();return}
-   if(m.f!==other)return}
-  else{if(m.to&&m.to!==me)return;if(m.t=='full'){joinRes&&joinRes('full');return}if(m.t=='welcome'){other=m.f;lastIn=Date.now();joinRes&&joinRes('ok');L.setUp(true);return}if(other&&m.f!==other)return}
-  lastIn=Date.now();
-  if(m.t=='sdp'){try{if(!pc&&!mkPc())return;await pc.setRemoteDescription(m.d);if(m.d.type=='offer'){const a=await pc.createAnswer();await pc.setLocalDescription(a);raw({t:'sdp',d:pc.localDescription})}}catch(e){}}
-  else if(m.t=='ice'){try{if(pc)await pc.addIceCandidate(m.c)}catch(e){}}
-  else if(m.t=='m'){L.got(m.m)}
-  else if(m.t=='bye'){other=null;L.setUp(false);try{pc&&pc.close()}catch(e){}pc=null;dc=null}};
- cl.onmsg=(t,s)=>{if(t!==inT)return;try{onRaw(JSON.parse(s))}catch(e){}};
- /* 중계 서버와 끊기면(앱 전환 등) 같은 방으로 다시 접속 */
- const reconnect=async()=>{if(closed||cl&&cl.up)return;try{const r=await mqConnect(BROKERS[bi]);cl=r;cl.onmsg=(t,s)=>{if(t!==inT)return;try{onRaw(JSON.parse(s))}catch(e){}};cl.onclose=()=>setTimeout(reconnect,1500);resub();if(role=='guest'&&other)raw({t:'join'})}catch(e){setTimeout(reconnect,2500)}};
- cl.onclose=()=>setTimeout(reconnect,1500);
- const vis=()=>{if(!document.hidden)reconnect()};document.addEventListener('visibilitychange',vis);addEventListener('pageshow',vis);
- const hb=setInterval(()=>{if(other)raw({t:'hb'});if(other&&Date.now()-lastIn>9000&&role=='host'){other=null;L.setUp(false)}},2000);
- let joinRes=null;
- if(role=='guest'){let fin=0;const r=await new Promise(res0=>{const res=v=>{if(!fin){fin=1;res0(v)}};joinRes=res;let n=0;const tryJoin=()=>{if(fin)return;if(other||n>7){if(!other)res('nohost');return}n++;if(n>1)netMsg('방장을 찾는 중... ('+(n-1)+')');raw({t:'join'});setTimeout(tryJoin,2000)};tryJoin()});
-  joinRes=null;if(r!='ok'){closed=1;clearInterval(hb);try{cl.close()}catch(e){}throw r}}
- return L.api({code,send:m=>{if(dc&&dc.readyState=='open'){try{dc.send(JSON.stringify(m));return}catch(e){}}raw({t:'m',m})},
-  close:()=>{closed=1;clearInterval(hb);document.removeEventListener('visibilitychange',vis);raw({t:'bye'});setTimeout(()=>{try{cl.close()}catch(e){}try{pc&&pc.close()}catch(e){}},150)},
-  direct:()=>!!(dc&&dc.readyState=='open')})}
+/* ---------- 통신 2: PeerJS (일반 웹사이트용) ---------- */
+function loadPeerJS(){return new Promise((ok,no)=>{if(window.Peer)return ok();const s=document.createElement('script');s.src='https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js';s.onload=ok;s.onerror=()=>no('nonet');document.head.appendChild(s)})}
+const PJCFG={config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'},
+ {urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'}]}};
+async function trPeer(code,role){await loadPeerJS();const id='jokgu-unit-'+code;
+ return new Promise((ok,no)=>{let conn=null,done=0,peer;const L=mkLink();
+  const api=L.api({send:m=>{if(conn&&conn.open)try{conn.send(m)}catch(e){}},close:()=>{try{peer.destroy()}catch(e){}}});
+  const wire=c=>{conn=c;c.on('data',d=>{if(d&&d.full){fail('full');return}L.got(d)});c.on('open',()=>{if(role=='host'){L.setUp(true);if(!done){done=1;ok(api)}}else setTimeout(()=>{if(!done){L.setUp(true);done=1;ok(api)}},350)});c.on('close',()=>{conn=null;L.setUp(false)});c.on('error',()=>{})};
+  const fail=e=>{if(!done){done=1;try{peer.destroy()}catch(x){}no(e)}};
+  const et=e=>e.type=='peer-unavailable'?'nohost':e.type=='unavailable-id'?'taken':(e.type=='network'||e.type=='server-error'||e.type=='socket-error'||e.type=='socket-closed')?'nonet':e.type=='browser-incompatible'?'nortc':'noconn';
+  if(role=='host'){peer=new Peer(id,PJCFG);peer.on('open',()=>{if(!done){done=1;ok(api)}});
+   /* 방장이 카톡으로 코드를 보내러 나갔다 오면 연결 서버와 끊김 → 같은 코드로 다시 접속 */
+   const rec=()=>{try{if(!peer.destroyed&&peer.disconnected)peer.reconnect()}catch(e){}};
+   peer.on('disconnected',()=>setTimeout(rec,800));document.addEventListener('visibilitychange',()=>{if(!document.hidden)rec()});addEventListener('focus',rec);addEventListener('pageshow',rec);
+   NET.rec=rec;peer.on('connection',c=>{if(conn&&conn.open){c.on('open',()=>{try{c.send({full:1})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},400)});return}wire(c)});peer.on('error',e=>fail(et(e)))}
+  else{let srv=0,tries=0;peer=new Peer(PJCFG);const go=()=>wire(peer.connect(id,{reliable:true}));
+   peer.on('open',()=>{srv=1;go()});
+   /* 방장이 잠깐 나가 있으면 '방 없음'이 올 수 있음 → 몇 번 더 두드려 봄 */
+   peer.on('error',e=>{const t=et(e);if(t=='nohost'&&tries<6&&!done){tries++;netMsg('방장을 찾는 중... ('+tries+')');setTimeout(go,2500);return}fail(t)});
+   setTimeout(()=>fail(srv?(tries?'nohost':'noconn'):'nonet'),25000)}
+  if(role=='host')setTimeout(()=>fail('nonet'),15000)})}
 /* ---------- 통신 3: 같은 브라우저 창끼리 (시험용, 주소 끝에 #bc) ---------- */
 function trBC(code,role){const bc=new BroadcastChannel('jk-'+code),L=mkLink();let seen=0;
  bc.onmessage=e=>{const d=e.data;if(!d||d.role==role)return;seen=Date.now();L.setUp(true);if(d.m)L.got(d.m)};
  let last=null;const iv=setInterval(()=>{bc.postMessage({role,m:last});if(L.up&&Date.now()-seen>3000)L.setUp(false)},250);
  bc.postMessage({role,m:null});
  return Promise.resolve(L.api({send:m=>{last=m;bc.postMessage({role,m})},close:()=>{clearInterval(iv);bc.close()}}))}
-async function openTr(code,role){if(location.hash=='#bc')return trBC(code,role);if(inClaude())return trRoom(code,role);return trMq(code,role)}
+async function openTr(code,role){if(location.hash=='#bc')return trBC(code,role);if(inClaude())return trRoom(code,role);return trPeer(code,role)}
 /* ---------- 로비 화면 ---------- */
 const NETMSG={noroom:'이 링크로는 온라인 대전을 할 수 없어요. Claude에 로그인하고 이 게임에 초대받은 사람끼리만 연결됩니다.',
- nonet:'연결 서버에 접속하지 못했어요. 인터넷이 되는지 확인하고 다시 눌러 주세요.',nohost:'그 코드의 방을 찾을 수 없어요. 코드를 확인하고, 방장이 게임 화면(방 코드가 보이는 화면)으로 돌아와 있는지 확인해 주세요.',taken:'방 만들기에 실패했어요. 다시 눌러 주세요.',
+ nonet:'인터넷 연결을 확인해 주세요. 와이파이나 데이터가 켜져 있어야 해요.',nohost:'그 코드의 방을 찾을 수 없어요. 코드를 확인하고, 방장이 게임 화면(방 코드가 보이는 화면)으로 돌아와 있는지 확인해 주세요.',taken:'방 만들기에 실패했어요. 다시 눌러 주세요.',
  full:'그 방은 이미 2명이 꽉 찼어요. 새 방을 만들거나 다른 코드를 넣어 주세요.',
- noconn:'상대와 연결이 끊겼어요. 방을 새로 만들어 다시 해주세요.',
- nortc:'이 브라우저에서는 온라인 대전이 안 돼요. 크롬이나 사파리에서 열어 주세요.'};
+ noconn:'방은 찾았는데 두 폰이 서로 연결되지 않았어요. 둘 다 와이파이를 끄고 데이터(LTE/5G)로 바꾼 뒤, 방을 새로 만들어 다시 해보세요.',
+ nortc:'이 브라우저에서는 온라인 대전이 안 돼요. 카톡 안에서 열었다면 오른쪽 아래 메뉴로 크롬이나 사파리에서 열어 주세요.'};
 function netStep(s){['n0','n1','n2','n3'].forEach(k=>{$(k).style.display=k==s?'flex':'none'})}
 function netMsg(t){$('nmsg').textContent=t||''}
 function openNet(){netLeave();NET.me={};netStep('n0');netMsg('');show('net')}
 function netLeave(){if(NET.tr)try{NET.tr.close()}catch(e){}NET.tr=null;NET.on=false;NET.peer=false;NET.ot=null;NET.role='';document.body.classList.remove('online')}
 function netWire(){const tr=NET.tr;
- tr.onMsg(m=>{NET.ot=m;NET.otT=Date.now();if(m.inp)NET.rin=m.inp;if(m.snap&&NET.role=='guest'){const nw=performance.now();NET.dt=Math.min(110,Math.max(16,nw-(NET.t||nw-33)));NET.a=NET.snap;NET.snap=m.snap;NET.t=nw}});
+ tr.onMsg(m=>{NET.ot=m;NET.otT=Date.now();if(m.inp)NET.rin=m.inp;if(m.snap&&NET.role=='guest'){NET.a=NET.snap;NET.snap=m.snap;NET.t=performance.now()}});
  tr.onPeer(on=>{NET.peer=on;if(!on){NET.ot=null;if(cur=='game'||cur=='end'){netMsg('');netLost()}}});
  NET.on=true;document.body.classList.add('online')}
 function netLost(){if(NET.lost)return;NET.lost=1;if(G){G.msg='상대가 나갔어요';G.pause=0;G.over=1}setTimeout(()=>{NET.lost=0;netLeave();show('title')},2200)}
 async function netCreate(){netStep('n3');netMsg('방을 만드는 중...');
- for(let k=0;k<4;k++){let code=newCode();try{const tr=await openTr(code,'host');if(tr.code)code=tr.code;if(tr.busy&&await new Promise(r=>setTimeout(()=>r(tr.busy()),900))){tr.close();continue}
+ for(let k=0;k<4;k++){const code=newCode();try{const tr=await openTr(code,'host');if(tr.busy&&await new Promise(r=>setTimeout(()=>r(tr.busy()),900))){tr.close();continue}
    NET.tr=tr;NET.role='host';NET.code=code;break}catch(e){if(e!='taken'){netStep('n0');netMsg(NETMSG[e]||NETMSG.nonet);return}}}
  if(!NET.tr){netStep('n0');netMsg(NETMSG.taken);return}
  NET.me={role:'host',sel:SEL[0]||0,rdy:0,ph:'lobby'};netWire();netSend();$('ncode').textContent=NET.code;netStep('n1');netMsg('')}
@@ -627,7 +585,7 @@ async function netJoin(){const code=($('nin').value||'').toUpperCase().replace(/
  const t0=Date.now();while(!NET.peer&&Date.now()-t0<8000)await new Promise(r=>setTimeout(r,150));
  if(!NET.peer){netLeave();netStep('n2');netMsg(NETMSG.noconn);return}
  $('ncode').textContent=code;netStep('n1');netMsg('')}
-function netSend(){if(!NET.tr)return;const m=Object.assign({},NET.me);if(NET.role=='host'&&G&&G.b&&(cur=='game'||G.over))m.snap=snapOf();NET.tr.send(m)}
+function netSend(){if(!NET.tr)return;const m=Object.assign({},NET.me);if(NET.role=='host'&&G&&cur=='game')m.snap=snapOf();NET.tr.send(m)}
 function netPick(i){if(NET.me.rdy)return;NET.me.sel=i;netSend()}
 function netReady(){if(!NET.peer)return;NET.me.rdy=NET.me.rdy?0:1;netSend()}
 function netCopy(){const t=NET.code;try{navigator.clipboard.writeText(t).then(()=>netMsg('코드를 복사했어요: '+t),()=>netMsg('코드: '+t))}catch(e){netMsg('코드: '+t)}}
@@ -649,7 +607,7 @@ function r1(v){return typeof v=='number'?Math.round(v*10)/10:v}
 function snapOf(){return{p:G.p.map(p=>{const o={};PF.forEach(k=>o[k]=r1(p[k]));return o}),b:{x:r1(G.b.x),y:r1(G.b.y),vx:r1(G.b.vx),vy:r1(G.b.vy),r:r1(G.b.r)},
  pts:G.pts,sets:G.sets,si:G.si,msg:G.msg,ready:G.ready,pause:G.pause,over:G.over,win:G.win,hn:G.hn||0,hx:G.hx,hy:G.hy,hk:G.hk}}
 function netLocalInp(){return[K.KeyA||K.ArrowLeft?1:0,K.KeyD||K.ArrowRight?1:0,K.KeyW||K.ArrowUp?1:0,K.KeyS||K.ArrowDown?1:0,K.KeyG||K.Numpad1||K.Space?1:0]}
-function netHostTick(){NET.tick++;if(NET.ot&&Date.now()-NET.otT>1500)NET.rin=[0,0,0,0,0];const ev=NET.tr&&NET.tr.direct&&NET.tr.direct()?2:3;if(NET.tick%ev==0||G.over)netSend()}
+function netHostTick(){NET.tick++;if(NET.ot&&Date.now()-NET.otT>1500)NET.rin=[0,0,0,0,0];if(NET.tick%2==0||G.over)netSend()}
 function netGuestFrame(){const inp=netLocalInp();if(inp.join()!=(NET.me.inp||[]).join()||++NET.hb>20){NET.hb=0;NET.me.inp=inp;netSend()}
  const s=NET.snap;if(!s||!G)return;
  s.p.forEach((q,i)=>{const p=G.p[i];Object.assign(p,q);
@@ -658,7 +616,7 @@ function netGuestFrame(){const inp=netLocalInp();if(inp.join()!=(NET.me.inp||[])
  Object.assign(G.b,s.b);['pts','sets','si','msg','ready','pause','over','win','hx','hy','hk'].forEach(k=>G[k]=s[k]);
  if((s.hn||0)!=NET.hn){if(s.hn>NET.hn){boom(s.hx,s.hy,s.hk);Aud.ball(s.hk)}NET.hn=s.hn||0}
  /* 받은 화면 사이를 부드럽게 이어 그림 */
- const a=NET.a;if(a){const k=Math.min(1,(performance.now()-NET.t)/(NET.dt||34));
+ const a=NET.a;if(a){const k=Math.min(1,(performance.now()-NET.t)/34);
   G.p.forEach((p,i)=>{p.x=a.p[i].x+(s.p[i].x-a.p[i].x)*k;p.y=a.p[i].y+(s.p[i].y-a.p[i].y)*k});
   if(Math.hypot(s.b.x-a.b.x,s.b.y-a.b.y)<60){G.b.x=a.b.x+(s.b.x-a.b.x)*k;G.b.y=a.b.y+(s.b.y-a.b.y)*k}}
  if(s.over&&!NET.fin){NET.fin=1;finRemote(s.win)}}
